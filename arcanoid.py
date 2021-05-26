@@ -1,5 +1,4 @@
 from pygame import *
-from random import *
 from time import time as timer
 
  
@@ -60,7 +59,7 @@ for i in range(5):
 window = display.set_mode((1280,720))
 display.set_caption('Arcanoid')
 background = transform.scale(image.load('background.png'), (1280, 720))
-paddle = Player('paddle.png', 640, 650, 200, 65, 4)
+paddle = Player('paddle.png', 640, 650, 200, 65, 6)
 ball = Ball('Ball.png', 610, 380, 50, 50, 1)
 
 balls = sprite.Group()
@@ -69,7 +68,7 @@ balls.add(ball)
 font.init()
 font2 = font.SysFont('Arial', 24)
 
-mixer.init()
+#mixer.init()
 #mixer.music.load('space.ogg')
 #mixer.music.play()
 
@@ -99,13 +98,16 @@ while game:
             speed_x *= -1
         if ball.rect.x > 1280:
             speed_x *= -1
+        if ball.rect.y >= 720:
+            ball.rect.y = 300
+            ball.rect.x = 610
+            speed_x = 3
+            speed_x = 3
         if sprite.collide_rect(ball, paddle):
             speed_y *= -1
         if sprite.spritecollide(ball, bricks, True):
             speed_y *= -1
-            speed_x *= -1
+            speed_x *= 1
             bricks.remove(brick)
             Score += 1
-        if ball.rect.y >= 0:
-            ball.rect.y = 380
     clock.tick(FPS)
