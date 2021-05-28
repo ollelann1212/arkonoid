@@ -78,7 +78,8 @@ while game:
         if e.type == QUIT:
             game = False    
     score_text = font2.render('Счет: ' +str(Score), 1, (255,255,255))
-    combo_text = font2.render('Комбо: '+str(Combo), 1, (255, 255, 255))            
+    combo_text = font2.render('Комбо: '+str(Combo), 1, (255, 255, 255))       
+    lives_text = font2.render('Жизни: '+str(Lives), 1, (255, 255, 255))        
     window.blit(background,(0,0))
     #window.blit(combo_text, (10,20))
     paddle.update()
@@ -88,6 +89,7 @@ while game:
     bricks.update()
     bricks.draw(window)
     window.blit(score_text, (10,0))
+    window.blit(lives_text,(10,20))
     display.update()
     if game == True:
         ball.rect.x += speed_x
@@ -103,6 +105,7 @@ while game:
             ball.rect.x = 610
             speed_x = 3
             speed_x = 3
+            Lives -= 1
         if sprite.collide_rect(ball, paddle):
             speed_y *= -1
         if sprite.spritecollide(ball, bricks, True):
@@ -110,4 +113,10 @@ while game:
             speed_x *= 1
             bricks.remove(brick)
             Score += 1
+        if Lives <= 0:
+            quit()
+        
+        if Score == 43:
+            time.delay(5000)
+            quit()
     clock.tick(FPS)
